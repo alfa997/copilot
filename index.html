@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>alfaRow | Portofolio Profesional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        
+        /* Animasi Logo */
+        #logo-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #0f172a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+            animation: fadeOut 1s forwards 3s;
+        }
+        
+        .logo-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .logo-circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 4px solid transparent;
+            animation: rotate 2s linear infinite;
+        }
+        
+        .logo-circle:nth-child(1) {
+            border-top-color: #60a5fa;
+            animation-delay: 0s;
+        }
+        
+        .logo-circle:nth-child(2) {
+            border-top-color: #38bdf8;
+            animation-delay: 0.5s;
+        }
+        
+        .logo-circle:nth-child(3) {
+            border-top-color: #22d3ee;
+            animation-delay: 1s;
+        }
+        
+        .logo-text {
+            font-size: 4.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #60a5fa, #38bdf8, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            animation: fadeInText 1s forwards 1.5s;
+        }
+        
+        .loading-text {
+            margin-top: 30px;
+            font-size: 1.2rem;
+            opacity: 0;
+            animation: fadeIn 1s forwards 2s;
+        }
+        
+        /* Konten Utama */
+        #main-content {
+            opacity: 0;
+            animation: fadeInContent 1s forwards 3.5s;
+        }
+        
+        header {
+            padding: 2rem 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            padding: 1rem 10%;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #60a5fa, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: #60a5fa;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #60a5fa;
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
+            gap: 5rem;
+            padding-top: 100px;
+        }
+        
+        .hero-content {
+            flex: 1;
+        }
+        
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .profile-logo {
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            object-fit: contain;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            animation: float 6s ease-in-out infinite;
+            background: linear-gradient(45deg, #1e40af, #0ea5e9);
+            padding: 20px;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .highlight {
+            background: linear-gradient(90deg, #60a5fa, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        p {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            color: #94a3b8;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: linear-gradient(90deg, #2563eb, #0ea5e9);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+        }
+        
+        .btn:disabled {
+            background: linear-gradient(90deg, #64748b, #94a3b8);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .skills {
+            padding: 5rem 10%;
+            background: rgba(15, 23, 42, 0.7);
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #60a5fa, #38bdf8);
+            border-radius: 2px;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .skill-card {
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .skill-card.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-10px);
+            border-color: #60a5fa;
+        }
+        
+        .skill-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: #60a5fa;
+        }
+        
+        .skill-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .portfolio {
+            padding: 5rem 10%;
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .project-card {
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .project-card.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .project-img {
+            height: 200px;
+            width: 100%;
+            background: linear-gradient(45deg, #1e40af, #0ea5e9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-img::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+        }
+        
+        .project-card:hover .project-img::before {
+            animation: shine-overlay 1.5s;
+        }
+        
+        .project-info {
+            padding: 1.5rem;
+        }
+        
+        .project-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .project-info p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tech {
+            background: rgba(56, 189, 248, 0.2);
+            color: #38bdf8;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .contact {
+            padding: 5rem 10%;
+            text-align: center;
+            background: rgba(15, 23, 42, 0.7);
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 2rem auto;
+            background: rgba(30, 41, 59, 0.5);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .contact-form.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.8s ease;
+        }
+        
+        .form-group.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            border-radius: 10px;
+            color: #e2e8f0;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+        }
+        
+        textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        #form-status {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            border-radius: 5px;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .success {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            display: block;
+        }
+        
+        .error {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            display: block;
+        }
+        
+        footer {
+            padding: 2rem 10%;
+            text-align: center;
+            border-top: 1px solid rgba(100, 116, 139, 0.2);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(30, 41, 59, 0.7);
+            color: #60a5fa;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+        }
+        
+        .social-links a.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .social-links a:hover {
+            background: #60a5fa;
+            color: #0f172a;
+            transform: translateY(-5px);
+        }
+        
+        /* Animasi Keyframes */
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeInText {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+        
+        @keyframes fadeInContent {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
+        @keyframes shine {
+            0% { transform: rotate(45deg) translateX(-150%); }
+            50% { transform: rotate(45deg) translateX(-60%); }
+            100% { transform: rotate(45deg) translateX(150%); }
+        }
+        
+        @keyframes shine-overlay {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                gap: 3rem;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            .profile-logo {
+                width: 280px;
+                height: 280px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .logo-text {
+                font-size: 3.5rem;
+            }
+            
+            .logo-container {
+                width: 250px;
+                height: 250px;
+            }
+            
+            h1 {
+                font-size: 2.3rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+    <link rel="icon" type="image/png" href="images/logo-alfarow.png" sizes="32x32">
+<link rel="apple-touch-icon" href="images/logo-alfarow.png">
+
+</head>
+<body>
+    <!-- Animasi Logo -->
+    <div id="logo-animation">
+        <div class="logo-container">
+            <div class="logo-circle"></div>
+            <div class="logo-circle"></div>
+            <div class="logo-circle"></div>
+            <div class="logo-text">alfaRow</div>
+        </div>
+        <div class="loading-text">Menyiapkan portofolio terbaik...</div>
+    </div>
+    
+    <!-- Konten Utama -->
+    <div id="main-content">
+        <header id="header">
+            <div class="nav-logo">alfaRow</div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Beranda</a></li>
+                    <li><a href="#skills">Keahlian</a></li>
+                    <li><a href="#portfolio">Portofolio</a></li>
+                    <li><a href="#contact">Kontak</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Membangun Masa Depan Digital dengan <span class="highlight">Inovasi</span></h1>
+                <p>"Saya Daffa Alfaro —
+Bukan sekadar nulis kode, tapi merangkai logika jadi cerita.
+Di antara { } ku temukan harmoni,
+di balik error, ada seni.
+Keyboard = senjata, IDE = kuil.
+Mission: bikin digital yang bikin hidup lebih human."</p>
+                <a href="#portfolio" class="btn">Lihat Portofolio</a>
+            </div>
+            <div class="hero-image">
+                <img src="images/logo-alfarow.png" alt="Logo alfaRow" class="profile-logo">
+            </div>
+        </section>
+        
+        <section id="skills" class="skills">
+            <h2 class="section-title">Keahlian Saya</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Pengembangan Web</h3>
+                    <p>Membangun website responsif dan aplikasi web modern dengan teknologi terbaru.</p>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Desain UI/UX</h3>
+                    <p>Mendesain antarmuka yang intuitif dan pengalaman pengguna yang memikat.</p>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3>Desain Grafis</h3>
+                    <p>Menciptakan identitas visual yang kuat dan desain yang menarik.</p>
+                </div>
+                
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Digital Marketing</h3>
+                    <p>Strategi pemasaran digital untuk meningkatkan visibilitas dan pertumbuhan bisnis.</p>
+                </div>
+
+                 <div class="skill-card">
+                    <div class="skill-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>PENGEMBANGAN</h3>
+                    <p>WEB INI MASI TAHAP PENGEMBANGAN NANTI AKAN DI KEMBANGKAN SAMPAI CANGGIH.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="portfolio" class="portfolio">
+            <h2 class="section-title">Proyek Terbaru</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-img">love infinite</div>
+                    <div class="project-info">
+                        <h3>codingan love infinite</h3>
+                        <p>Codingan ini berfungsi untuk buat pacar kallian atau apa lah kalo ngga punya buat sendiri bisa.</p>
+                        <div class="tech-stack">
+                            <span class="tech">style.css</span>
+                            <span class="tech">script.js</span>
+                            <span class="tech">index.html</span>
+                        </div>
+                        <a href="https://daffa-alfarow.web.id/cloveinfi/" target="_blank" rel="noopener noreferrer" class="btn">Lihat Detail</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-img">Informasi alfaRow</div>
+                    <div class="project-info">
+                        <h3>Toko Online Premium</h3>
+                        <p>Platform e-commerce dengan pengalaman belanja yang mulus dan aman.</p>
+                        <div class="tech-stack">
+                            <span class="tech">script.js</span>
+                            <span class="tech">style.css</span>
+                            <span class="tech">index.html</span>
+                        </div>
+                       <a href="https://daffa-alfarow.web.id/storee/" target="_blank" rel="noopener noreferrer" class="btn">Lihat Detail</a>
+                    </div>
+                </div>
+
+                 <div class="project-card">
+                    <div class="project-img">codingan kalkulator</div>
+                    <div class="project-info">
+                        <h3>Kalkulator</h3>
+                        <p>codingan kalkulator adalah projek yang pernah saya buat dan saya sw inkalo ngga salah</p>
+                        <div class="tech-stack">
+                            <span class="tech">script.js</span>
+                            <span class="tech">style.css</span>
+                            <span class="tech">index.html</span>
+                        </div>
+                       <a href="https://daffa-alfarow.web.id/ckalkulator/" target="_blank" rel="noopener noreferrer" class="btn">Lihat Detail</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-img">Codingan confess</div>
+                    <div class="project-info">
+                        <h3>Confess</h3>
+                        <p>jadi fungsinya untuk kalian kalian yang mau confess orang atau apa bisa pake ini.</p>
+                        <div class="tech-stack">
+                            <span class="tech">sound blueyungkai</span>
+                            <span class="tech">love.js</span>
+                            <span class="tech">main.js</span>
+                            <span class="tech">love.html</span>
+                            <span class="tech">main.html</span>
+                            <span class="tech">love.css</span>
+                            <span class="tech">main.css</span>
+                        </div>
+                       <a href="https://daffa-alfarow.web.id/confess/" target="_blank" rel="noopener noreferrer" class="btn">Lihat Detail</a>
+                    </div>
+                </div>
+
+                 <div class="project-card">
+                    <div class="project-img">codingan love 3D</div>
+                    <div class="project-info">
+                        <h3>Love 3D</h3>
+                        <p>codingan LOVE 3D adalah projek yang buat kalian asik asik kan saja.</p>
+                        <div class="tech-stack">
+                            <span class="tech">script.js</span>
+                            <span class="tech">style.css</span>
+                            <span class="tech">index.html</span>
+                        </div>
+                       <a href="https://daffa-alfarow.web.id/love3d/" target="_blank" rel="noopener noreferrer" class="btn">Lihat Detail</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-img">codingan love pink</div>
+                    <div class="project-info">
+                        <h3>Love pink</h3>
+                        <p>codingan LOVE pink adalah projek yang buat kalian suka warna pink bisa pake ini.</p>
+                        <div class="tech-stack">
+                            <span class="tech">script.js</span>
+                            <span class="tech">style.css</span>
+                            <span class="tech">index.html</span>
+                        </div>
+                       <a href="https://daffa-alfarow.web.id/lovepink/" target="_blank" rel="noopener noreferrer" class="btn">Lihat Detail</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contact" class="contact">
+            <h2 class="section-title">Hubungi Saya</h2>
+            <p>Punya proyek menarik? atau kritik dan saran boleh langsung aja isi.</p>
+            <form id="contact-form" class="contact-form">
+                <div class="form-group">
+                    <label for="name">Nama Lengkap</label>
+                    <input type="text" id="name" name="name" placeholder="Nama Anda" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Email Anda" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Pesan</label>
+                    <textarea id="message" name="message" placeholder="Pesan Anda" required></textarea>
+                </div>
+                <button type="submit" class="btn" id="submit-btn">Kirim Pesan</button>
+                <div id="form-status"></div>
+            </form>
+        </section>
+        
+        <footer>
+            <div class="social-links">
+               <!-- Contoh dengan akun nyata -->
+<a href="https://www.tiktok.com/@alfarow.id" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
+<a href="https://www.youtube.com/@Alfaro19-en7" target="_blank"><i class="fab fa-youtube"></i></a>
+<a href="https://www.instagram.com/fotoproxy81" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+<a href="https://t.me/alfaRowHostingOffc" target="_blank" rel="noopener noreferrer"><i class="fab fa-telegram"></i></a>
+<a href="https://wa.me/628129825028" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <p>&copy; 2025 alfaRow. Web ini di buat daffa dengan penuh cinta. Masa kamu ngga wkwk</p>
+        </footer>
+    </div>
+    
+    <script>
+        // URL Google Apps Script
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxGVQTywQbIU4SuvN-IEZEbN9BFD3EBdSlfk8YIto6EV4ZReEd1BjfBFx9jtshyrH83/exec";
+        
+        // Script untuk smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Animasi saat scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.skill-card, .project-card, .contact-form, .form-group, .social-links a');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+        }
+        
+        // Header efek saat scroll
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Animasi form-group secara berurutan
+        function animateFormGroups() {
+            const formGroups = document.querySelectorAll('.form-group');
+            formGroups.forEach((group, index) => {
+                setTimeout(() => {
+                    group.classList.add('animated');
+                }, 300 * (index + 1));
+            });
+        }
+        
+        // Inisialisasi animasi
+        window.addEventListener('load', function() {
+            animateOnScroll();
+            animateFormGroups();
+            
+            // Animasi social links
+            const socialLinks = document.querySelectorAll('.social-links a');
+            socialLinks.forEach((link, index) => {
+                setTimeout(() => {
+                    link.classList.add('animated');
+                }, 200 * (index + 1));
+            });
+        });
+        
+        // Handle form submission
+        document.getElementById('contact-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const form = e.target;
+            const formData = new FormData(form);
+            const submitBtn = document.getElementById('submit-btn');
+            const statusElement = document.getElementById('form-status');
+            
+            // Disable button during submission
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Mengirim...';
+            statusElement.style.display = 'none';
+            
+            try {
+                // Kirim data ke Google Apps Script
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.result === 'success') {
+                    // Reset form on success
+                    form.reset();
+                    
+                    // Tampilkan pesan sukses
+                    statusElement.textContent = 'Pesan berhasil dikirim! Saya akan segera menghubungi Anda.';
+                    statusElement.className = 'success';
+                    statusElement.style.display = 'block';
+                } else {
+                    // Tampilkan pesan error
+                    statusElement.textContent = 'Terjadi kesalahan saat mengirim pesan. Silakan coba lagi.';
+                    statusElement.className = 'error';
+                    statusElement.style.display = 'block';
+                }
+            } catch (error) {
+                // Tangani error jaringan
+                console.error('Error!', error.message);
+                statusElement.textContent = 'Terjadi kesalahan jaringan. Silakan coba lagi.';
+                statusElement.className = 'error';
+                statusElement.style.display = 'block';
+            } finally {
+                // Aktifkan kembali tombol submit
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Kirim Pesan';
+                
+                // Hilangkan status setelah 5 detik
+                setTimeout(() => {
+                    statusElement.style.display = 'none';
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>
